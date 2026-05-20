@@ -1,1 +1,43 @@
 @import "tailwindcss";
+
+/* 3D Card Flip CSS */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+/* Card backing pattern decoration */
+.card-back-pattern {
+  background-color: #1e1b4b;
+  background-image: 
+    radial-gradient(circle at 50% 50%, #4338ca 1px, transparent 1px),
+    radial-gradient(circle at 0 0, #312e81 2px, transparent 2px),
+    radial-gradient(circle at 100% 100%, #312e81 2px, transparent 2px);
+  background-size: 20px 20px;
+}
+
+/* Floating animation for face-down cards */
+@keyframes tarot-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-tarot-float {
+  animation: tarot-float 3.5s ease-in-out infinite;
+}

@@ -1,10 +1,230 @@
 import React, { useState, useEffect } from 'react';
-import { Sparkles, Moon, Star, Eye, Heart } from 'lucide-react';
+import { 
+  Sparkles, 
+  Moon, 
+  Star, 
+  Eye, 
+  Heart, 
+  Compass, 
+  BookOpen, 
+  Crown, 
+  Shield, 
+  Anchor, 
+  HeartHandshake, 
+  Trophy, 
+  Scale, 
+  Hourglass, 
+  Sprout, 
+  GlassWater, 
+  Zap, 
+  CloudLightning, 
+  Sun, 
+  Bell, 
+  Globe, 
+  RefreshCw,
+  Shuffle
+} from 'lucide-react';
+
+const ARCANOS = [
+  {
+    id: 0,
+    roman: "0",
+    name: "El Loco",
+    icon: Compass,
+    color: "from-indigo-500 via-purple-500 to-pink-500",
+    message: "Aventúrate en el amor sin miedo, da ese salto de fe. Tu corazón puro sabe el camino y el universo sostiene cada uno de tus pasos."
+  },
+  {
+    id: 1,
+    roman: "I",
+    name: "El Mago",
+    icon: Sparkles,
+    color: "from-cyan-400 via-teal-400 to-indigo-500",
+    message: "Tienes toda la magia dentro de ti para manifestar la relación que sueñas. Cree en tu propio poder y mira cómo florecen los milagros."
+  },
+  {
+    id: 2,
+    roman: "II",
+    name: "La Sacerdotisa",
+    icon: BookOpen,
+    color: "from-blue-600 via-indigo-600 to-slate-900",
+    message: "Escucha el sabio y dulce susurro de tu intuición. En el silencio de tu alma se están tejiendo los sentimientos más sinceros y profundos."
+  },
+  {
+    id: 3,
+    roman: "III",
+    name: "La Emperatriz",
+    icon: Crown,
+    color: "from-pink-500 via-rose-400 to-amber-300",
+    message: "Irradias una calidez hermosa que atrae amor puro. Déjate consentir y florecer, eres un ser sumamente valioso y mereces toda la ternura."
+  },
+  {
+    id: 4,
+    roman: "IV",
+    name: "El Emperador",
+    icon: Shield,
+    color: "from-red-600 via-amber-700 to-slate-800",
+    message: "Construyes un amor seguro, fuerte y estable. Eres el refugio de paz para quienes te rodean; tu lealtad y cuidado son tu regalo más grande."
+  },
+  {
+    id: 5,
+    roman: "V",
+    name: "El Papa",
+    icon: Anchor,
+    color: "from-emerald-600 via-teal-600 to-cyan-800",
+    message: "Tus lazos de amor se fortalecen con el respeto mutuo, la comprensión y la sabiduría. Estás construyendo un vínculo duradero y sagrado."
+  },
+  {
+    id: 6,
+    roman: "VI",
+    name: "Los Enamorados",
+    icon: HeartHandshake,
+    color: "from-pink-600 via-rose-500 to-red-500",
+    message: "Elige siempre lo que haga sonreír a tu corazón. Una hermosa sintonía y decisiones llenas de ternura están alineándose en tu vida afectiva."
+  },
+  {
+    id: 7,
+    roman: "VII",
+    name: "El Carro",
+    icon: Trophy,
+    color: "from-yellow-500 via-amber-500 to-orange-600",
+    message: "Tu corazón avanza con paso firme y seguro hacia la felicidad. Nada puede detener el amor bonito que está destinado a llegar a tu vida."
+  },
+  {
+    id: 8,
+    roman: "VIII",
+    name: "La Fuerza",
+    icon: Sun,
+    color: "from-orange-500 via-amber-500 to-yellow-500",
+    message: "Tu mayor superpoder es la dulzura y la compasión con la que tratas a otros. Con esa paciencia infinita conquistas cualquier tormenta."
+  },
+  {
+    id: 9,
+    roman: "IX",
+    name: "El Ermitaño",
+    icon: Eye,
+    color: "from-slate-700 via-slate-600 to-violet-950",
+    message: "Dedica un ratito a abrazar tu propia alma. Tu luz interior es hermosa y, al brillar con amor propio, iluminas el camino de quienes te buscan."
+  },
+  {
+    id: 10,
+    roman: "X",
+    name: "La Rueda de la Fortuna",
+    icon: RefreshCw,
+    color: "from-purple-600 via-fuchsia-500 to-pink-500",
+    message: "El destino gira con una hermosa sonrisa para ti. Prepárate para sorpresas mágicas, reencuentros dulces y giros divinos en el amor."
+  },
+  {
+    id: 11,
+    roman: "XI",
+    name: "La Justicia",
+    icon: Scale,
+    color: "from-emerald-500 via-teal-500 to-sky-700",
+    message: "Hay un equilibrio precioso llegando a tu vida emocional. Cosecharás la honestidad, la paz y la correspondencia justa que tanto has sembrado."
+  },
+  {
+    id: 12,
+    roman: "XII",
+    name: "El Colgado",
+    icon: Hourglass,
+    color: "from-indigo-600 via-purple-600 to-blue-900",
+    message: "A veces ver el mundo al revés nos muestra detalles hermosos. Suelta el control, respira hondo y deja que el amor fluya a su propio y perfecto ritmo."
+  },
+  {
+    id: 13,
+    roman: "XIII",
+    name: "La Muerte",
+    icon: Sprout,
+    color: "from-slate-800 via-purple-900 to-fuchsia-950",
+    message: "Un renacer precioso está ocurriendo en tu corazón. Sueltas lo viejo con gratitud para abrir tus brazos a una nueva etapa llena de luz y ternura."
+  },
+  {
+    id: 14,
+    roman: "XIV",
+    name: "La Templanza",
+    icon: GlassWater,
+    color: "from-teal-400 via-cyan-500 to-blue-600",
+    message: "Tus emociones se llenan de una dulce calma y sanación. Tu corazón está en perfecta armonía, balanceando el amor con una paz maravillosa."
+  },
+  {
+    id: 15,
+    roman: "XV",
+    name: "El Diablo",
+    icon: Zap,
+    color: "from-red-700 via-rose-800 to-black",
+    message: "Un magnetismo irresistible y una pasión radiante te envuelven hoy. Abraza tu fuego interior con libertad, alegría y un toque de dulce travesura."
+  },
+  {
+    id: 16,
+    roman: "XVI",
+    name: "La Torre",
+    icon: CloudLightning,
+    color: "from-amber-600 via-orange-700 to-stone-900",
+    message: "Las viejas barreras caen para que puedas construir sobre bases de amor auténticas y transparentes. Estás más a salvo y libre que nunca."
+  },
+  {
+    id: 17,
+    roman: "XVII",
+    name: "La Estrella",
+    icon: Star,
+    color: "from-sky-400 via-blue-500 to-indigo-900",
+    message: "Eres una luz hermosa de esperanza. Tus sueños de amor están guiados por las estrellas celestiales, confía en que todo se está alineando para ti."
+  },
+  {
+    id: 18,
+    roman: "XVIII",
+    name: "La Luna",
+    icon: Moon,
+    color: "from-indigo-800 via-purple-900 to-slate-950",
+    message: "Sumérgete en la dulce profundidad de tu sensibilidad. Tus sueños y emociones te conectan de forma mágica y misteriosa con las almas que amas."
+  },
+  {
+    id: 19,
+    roman: "XIX",
+    name: "El Sol",
+    icon: Sun,
+    color: "from-yellow-400 via-orange-500 to-red-500",
+    message: "¡Brillas con una luz maravillosa! El amor te abraza hoy con calidez, risas infinitas y una felicidad tan grande que contagia a todo tu mundo."
+  },
+  {
+    id: 20,
+    roman: "XX",
+    name: "El Juicio",
+    icon: Bell,
+    color: "from-emerald-500 via-amber-400 to-yellow-600",
+    message: "Un despertar dulce y luminoso en tus afectos. Las heridas del pasado se desvanecen por fin y tu alma celebra un nuevo canto de felicidad."
+  },
+  {
+    id: 21,
+    roman: "XXI",
+    name: "El Mundo",
+    icon: Globe,
+    color: "from-fuchsia-600 via-purple-600 to-blue-600",
+    message: "Estás en perfecta sintonía con el latido del universo. Tu corazón ha completado un ciclo precioso y el amor infinito te rodea con plenitud."
+  }
+];
 
 const App = () => {
   const [dailyMessage, setDailyMessage] = useState(null);
   const [isDrawing, setIsDrawing] = useState(false);
   const [visitCount, setVisitCount] = useState('...');
+
+  // Estados para el Oráculo de Amor de Marsella
+  const [selectedThree, setSelectedThree] = useState([]);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(null);
+  const [isShuffling, setIsShuffling] = useState(false);
+
+  const shuffleDeck = () => {
+    setIsShuffling(true);
+    setSelectedCardIndex(null);
+    
+    // Simular un mezclado mágico con retardo
+    setTimeout(() => {
+      const shuffled = [...ARCANOS].sort(() => 0.5 - Math.random());
+      setSelectedThree(shuffled.slice(0, 3));
+      setIsShuffling(false);
+    }, 850);
+  };
 
   // Array of magical positive messages for the interactive feature
   const messages = [
@@ -27,6 +247,9 @@ const App = () => {
     }
     localStorage.setItem('tarot_visits', savedCount.toString());
     setVisitCount(savedCount);
+
+    // Inicializar el oráculo de amor
+    shuffleDeck();
   }, []);
 
   const drawCard = () => {
@@ -174,6 +397,127 @@ const App = () => {
               </button>
             </div>
           )}
+        </div>
+
+        {/* Interactive Feature: Oráculo de Amor de las Cartas de Marsella */}
+        <div className="w-full mt-8 bg-gradient-to-br from-purple-950/85 via-indigo-950/85 to-slate-950/85 backdrop-blur-md rounded-3xl p-5 sm:p-6 border border-pink-500/30 text-center shadow-2xl relative overflow-hidden flex flex-col items-center">
+          {/* Elementos decorativos */}
+          <div className="absolute top-0 left-0 p-3 opacity-15"><Star className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse text-amber-300" /></div>
+          <div className="absolute bottom-0 right-0 p-3 opacity-15"><Heart className="w-6 h-6 sm:w-8 sm:h-8 animate-pulse text-pink-500" /></div>
+          
+          <h3 className="text-xl sm:text-2xl font-bold mb-1 tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-pink-300 via-rose-300 to-amber-300 flex items-center justify-center gap-2">
+            🃏 Oráculo de Amor de Marsella
+          </h3>
+          <p className="text-xs sm:text-sm text-pink-200/80 mb-6 max-w-sm">
+            Conecta con tu energía amorosa. Elige una de las 3 cartas boca abajo para revelar el tierno consejo de los Arcanos Mayores.
+          </p>
+
+          {/* Área de cartas */}
+          <div className="w-full flex justify-center items-center gap-3 sm:gap-4 my-2 min-h-[160px] sm:min-h-[200px]">
+            {selectedThree.map((card, idx) => {
+              const isSelected = selectedCardIndex === idx;
+              const isAnySelected = selectedCardIndex !== null;
+              const isFlipped = isSelected;
+              const IconComponent = card.icon;
+
+              return (
+                <div 
+                  key={idx}
+                  className={`perspective-1000 w-24 sm:w-28 h-36 sm:h-44 transition-all duration-500 ${
+                    isShuffling ? 'scale-90 opacity-0 translate-y-4' : 'scale-100 opacity-100'
+                  } ${
+                    isAnySelected && !isSelected ? 'opacity-40 scale-90 blur-[0.5px] pointer-events-none' : ''
+                  }`}
+                >
+                  <div 
+                    onClick={() => {
+                      if (selectedCardIndex === null && !isShuffling) {
+                        setSelectedCardIndex(idx);
+                      }
+                    }}
+                    className={`preserve-3d relative w-full h-full rounded-2xl cursor-pointer transition-transform duration-700 select-none ${
+                      isFlipped ? 'rotate-y-180 shadow-[0_0_25px_rgba(244,63,94,0.4)]' : 'hover:scale-105 hover:shadow-[0_0_15px_rgba(251,191,36,0.3)] animate-tarot-float'
+                    }`}
+                    style={{
+                      animationDelay: `${idx * 0.4}s`
+                    }}
+                  >
+                    {/* PARTE TRASERA DE LA CARTA (BOCA ABAJO) */}
+                    <div className="backface-hidden absolute inset-0 rounded-2xl border-2 border-amber-500/40 card-back-pattern flex flex-col items-center justify-center text-amber-400/90 shadow-lg p-2">
+                      <div className="w-full h-full border border-amber-500/20 rounded-xl flex flex-col items-center justify-center relative overflow-hidden bg-slate-950/40">
+                        {/* Detalles místicos en las esquinas */}
+                        <div className="absolute top-1 left-1 text-[8px] opacity-40 text-amber-300">✦</div>
+                        <div className="absolute top-1 right-1 text-[8px] opacity-40 text-amber-300">✦</div>
+                        <div className="absolute bottom-1 left-1 text-[8px] opacity-40 text-amber-300">✦</div>
+                        <div className="absolute bottom-1 right-1 text-[8px] opacity-40 text-amber-300">✦</div>
+                        
+                        <div className="relative p-2 rounded-full border border-amber-500/20 bg-slate-900/60 shadow-inner">
+                          <Moon className="w-6 h-6 text-amber-400" />
+                        </div>
+                        <div className="absolute inset-x-0 bottom-2 text-center">
+                          <span className="text-[9px] uppercase tracking-[0.2em] font-semibold text-amber-500/80">Amor</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* PARTE DELANTERA DE LA CARTA (REVELADA) */}
+                    <div className={`backface-hidden rotate-y-180 absolute inset-0 rounded-2xl border-2 border-amber-400 bg-gradient-to-b ${card.color} flex flex-col items-center justify-between p-2 sm:p-3 text-white shadow-2xl`}>
+                      {/* Número Romano */}
+                      <span className="text-[10px] sm:text-xs font-serif font-bold tracking-widest text-amber-200 bg-black/30 px-2 py-0.5 rounded-full border border-white/5">
+                        {card.roman}
+                      </span>
+                      
+                      {/* Icono Central */}
+                      <div className="p-2 bg-white/10 rounded-full border border-white/20 shadow-inner my-1">
+                        {IconComponent && <IconComponent className="w-7 h-7 sm:w-9 sm:h-9 text-amber-200 animate-pulse" />}
+                      </div>
+
+                      {/* Nombre del Arcano */}
+                      <div className="w-full text-center bg-black/30 py-1 rounded-lg border border-white/5">
+                        <span className="text-[9px] sm:text-[10px] font-bold tracking-wide uppercase block text-amber-200 truncate px-0.5">
+                          {card.name}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Detalles del mensaje amoroso */}
+          <div className="w-full mt-4 min-h-[90px] flex items-center justify-center">
+            {isShuffling ? (
+              <div className="flex flex-col items-center gap-2 py-4">
+                <RefreshCw className="w-6 h-6 text-pink-400 animate-spin" />
+                <p className="text-xs text-pink-200/60 italic">Barajando el destino amoroso...</p>
+              </div>
+            ) : selectedCardIndex !== null ? (
+              <div className="animate-in fade-in zoom-in-95 duration-500 w-full bg-white/5 p-4 rounded-2xl border border-pink-500/20 text-left relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-3 opacity-10"><Heart className="w-12 h-12 text-pink-500 fill-pink-500" /></div>
+                
+                <h4 className="text-xs sm:text-sm font-bold text-pink-300 flex items-center gap-1.5 mb-1.5 uppercase tracking-wider">
+                  <Sparkles className="w-4 h-4 text-amber-300" /> Consejo de {selectedThree[selectedCardIndex]?.name} 💖
+                </h4>
+                <blockquote className="text-sm sm:text-base text-pink-100 font-medium leading-relaxed italic border-l-2 border-pink-400 pl-3">
+                  "{selectedThree[selectedCardIndex]?.message}"
+                </blockquote>
+                
+                <div className="mt-4 flex justify-end">
+                  <button
+                    onClick={shuffleDeck}
+                    className="flex items-center gap-1.5 text-xs text-amber-300 hover:text-white font-bold bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-full border border-amber-300/30 transition-all cursor-pointer"
+                  >
+                    <Shuffle className="w-3.5 h-3.5" /> Barajar de nuevo
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <p className="text-xs sm:text-sm text-slate-400 italic py-4 animate-pulse">
+                👉 Presiona una carta para revelar la voz de tu alma...
+              </p>
+            )}
+          </div>
         </div>
 
         {/* Visitor Counter */}
